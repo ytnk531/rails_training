@@ -1,0 +1,22 @@
+.card
+  .card-content
+    = form_for :session, url: login_path, class: "form-inputs row" do |f|
+      .card-title.center ログイン
+      - flash.each do |message_type, message|
+        .alert
+          = message
+      .input-field.col.s12
+        .prefix
+          = material_icon.email
+        = f.text_field :emailAddress
+        = f.label :emailAddress, "メールアドレス"
+      .input-field.col
+        .prefix
+          = material_icon.lock
+        = f.password_field :password
+        = f.label :emailAddress, "パスワード"
+      .actions.center
+        = f.submit 'ログイン', class: "btn"
+      .right
+        = link_to 'アカウントを作成', new_user_path
+
