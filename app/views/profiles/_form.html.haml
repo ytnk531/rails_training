@@ -1,0 +1,32 @@
+.card{style: 'width: 700px'}
+  .card-content
+    = form_for @profile do |f|
+      - if @profile.errors.any?
+        #error_explanation
+          %h2= "#{pluralize(@profile.errors.count, "error")} prohibited this profile from being saved:"
+          %ul
+            - @profile.errors.full_messages.each do |message|
+              %li= message
+
+      .field
+        = f.label :message
+        = f.text_area :message, class: "materialize-textarea"
+      .field
+        = f.label :github_url
+        = f.text_field :github_url
+      .field
+        = f.label :facebook
+        = f.text_field :facebook
+      .field
+        = f.label :twitter
+        = f.text_field :twitter
+      %h4 職務経歴
+      #work_experiences
+        = f.fields_for :work_experiences do |we|
+          = render 'work_experience_fields', f: we
+        .add_link{style: 'text-align: right'}
+          = link_to_add_association f, :work_experiences do
+            = material_icon.add_circle.md_36
+      %br
+      .actions
+        = f.submit '保存', class: "btn"

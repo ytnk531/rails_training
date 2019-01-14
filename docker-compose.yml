@@ -1,8 +1,0 @@
-version: '3'
-services:
-  rails:
-    image: ruby:2.6
-#    volumes:
-#      - .:/var/app/myapp
-#    ports:
-#      - 3000:3000

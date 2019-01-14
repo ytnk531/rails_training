@@ -1,0 +1,42 @@
+%p#notice= notice
+.nav
+  = link_to users_path do
+    = material_icon.arrow_back
+    戻る
+  - if @profile.user.id === session[:user_id]
+    = link_to edit_profile_path(@profile) ,style: 'float:right;' do
+      = material_icon.edit
+      編集する
+.row
+  .col.s4
+    %h2
+      =@user.name
+    - if !@profile.facebook.nil?
+      = link_to "https://facebook.com/#{@profile.facebook}", class: "social-icon" do
+        - fa_icon "facebook-square"
+    - if !@profile.github_url.nil?
+      = link_to "https://github.com/#{@profile.github_url}", class: "social-icon" do
+        - fa_icon "github"
+    - if !@profile.twitter.nil?
+      = link_to "https://twitter.com/#{@profile.twitter}", class: "social-icon" do
+        - fa_icon "twitter"
+  .col.s8
+    .card
+      .card-title 自己紹介
+      .card-content
+        = simple_format(h(@profile.message))
+    .card
+      .card-title 職務経歴
+      - if @profile.work_experiences.empty?
+        %p まだ登録されていません
+      - else
+        %table
+          %thead
+            %th 会社名
+            %th 就職
+            %th 退社
+          %tbody
+            = render @profile.work_experiences
+
+
+
