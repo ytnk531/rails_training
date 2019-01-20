@@ -16,10 +16,10 @@ class User < ApplicationRecord
   enum role: { user: 'USER', admin: 'ADMIN' }
 
   def is_allowed_new_user?
-    self.role == "admin"
+    self.role == 'admin'
   end
 
   def is_allowed_delete_user?
-    self.role == "admin"
+    self.role == 'admin'
   end
 end
