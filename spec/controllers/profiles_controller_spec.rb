@@ -30,11 +30,11 @@ RSpec.describe ProfilesController, type: :controller do
   # Profile. As you add validations to Profile, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { message: 'aaaa', user_id: 5, work_experiences_attributes: [{company_name:'10'}]}
+    { message: 'aaaa', user_id: 5, work_experiences_attributes: [{ company_name: '10' }] }
   end
 
   let(:invalid_attributes) do
-    { user_id: 10, work_experiences_attributes: [{company_name: ''}]}
+    { user_id: 10, work_experiences_attributes: [{ company_name: '' }] }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -113,7 +113,7 @@ RSpec.describe ProfilesController, type: :controller do
 
   describe 'GET #add_work_experience' do
     it 'returns new' do
-      post :add_work_experience, params: {profile: {}}, session: {user_id: 5}
+      post :add_work_experience, params: { profile: {} }, session: { user_id: 5 }
       expect(response).to render_template :new
     end
   end
