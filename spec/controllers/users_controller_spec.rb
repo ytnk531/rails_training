@@ -51,6 +51,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new User' do
