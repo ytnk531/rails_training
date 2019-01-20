@@ -1,24 +1,50 @@
-# README
+# rails練習
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+次の要件で社員紹介サイトを開発します。
+```
+# 機能要件
+○ ログイン機能(メールアドレスとパスワード)
+○ ログインしたユーザは自身のプロフィールを編集可能
+○ プロフィールには複数の職歴を含むことが可能
+○ ログインしたユーザは社員のプロフィール一覧を閲覧可能
+○ ユーザーには、admin権限を持ったユーザーと、そうでないユーザーがいる
+△ admin権限を持ったユーザーは、ユーザーの追加・削除が可能
 
-Things you may want to cover:
+# 非機能要件
+○ Ruby / Railsの最新バージョンで開発
+△ rubocop入れる(余裕があればCircle CI等で自動テストが走るようにする)
+○ RSpecでテストを書く
+○ テンプレートエンジンをhamlで書く
+```
 
-* Ruby version
+仕様を決めていくために、次のような背景や目的があるという設定を勝手に付け加えました。
+- 社内での社員同士の部署間を超えた関わりを増やすために社員紹介サイトを作る
+- プロジェクトへのアサインの参考にできるように、スキル、経験、実績などを社内で公開できるようにする
 
-* System dependencies
+## 立ち上げ方
+`rails s`
+してみてください。
+development.sqlite3も入れてあるのでたぶん動くと思います。
 
-* Configuration
+管理者 email: admin1@example.com password: test  
+一般ユーザ email: user1@example.com password: test
 
-* Database creation
+## 課題
+優先度高そうなものから
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. 年月用のフォームが出ないときがある(materializeのjsのロードに失敗しているっぽい）
+1. adminによるユーザ追加機能が不十分。新規ユーザのユーザ追加に飛ばしているだけ。adminによる追加ではパスワードは設定せず、ユーザがパスワードを設定できるようにしたい。
+1. テストが不十分。特にコントローラのテストはテストデータが少なすぎ。
+1. 動かないテストがある。
+1. 名前、パスワード、メールアドレスが変更できない
+1. 部署も入れられるようにしたい。
+1. ページングしたい
+1. 検索したい
+1. 管理者専用のリソースに、一般ユーザもアクセスできてしまう
+1. バリデーションほぼやってない
+1. バリデーションのエラーメッセージが英語
+1. 見た目がいろいろと残念(特にフォーム)
+1. rubocopはauto-correctionかけただけ。クラスのコメントとか本当に書く必要あるか謎。
+1. カラム名がスネークケースになってないものがある
+1. たぶん不要なファイルや記述がいっぱいある
+1. .gitignoreがデフォのママ。git入れなくていいものがいっぱいありそう。
