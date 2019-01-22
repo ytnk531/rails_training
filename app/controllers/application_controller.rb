@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include SessionsHelper
-  before_action :require_sign_in!, raise: false
+  before_action :require_sign_in!
 
   private
 
