@@ -13,13 +13,13 @@ class User < ApplicationRecord
 
   has_secure_password
   has_one :profile
-  enum role: { user: 'USER', admin: 'ADMIN' }
+  enum role: { user: "USER", admin: "ADMIN" }
 
   def is_allowed_new_user?
-    self.role == 'admin'
+    self.role == "admin"
   end
 
   def is_allowed_delete_user?
-    self.role == 'admin'
+    self.role == "admin"
   end
 end

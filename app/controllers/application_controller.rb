@@ -6,11 +6,11 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def current
-    current_user
-  end
+    def current
+      current_user
+    end
 
-  def require_sign_in!
-    redirect_to login_path unless logged_in?
-  end
+    def require_sign_in!
+      redirect_to login_path unless logged_in?
+    end
 end
