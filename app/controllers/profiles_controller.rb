@@ -84,7 +84,7 @@ class ProfilesController < ApplicationController
   def profile_params
     params
       .require(:profile)
-      .permit(:message, :github_url, :facebook, :twitter,
+      .permit(:message, :github_id, :facebook_id, :twitter_id,
               work_experiences_attributes: %i[id company_name work_start_on work_end_on _destroy])
   end
 end

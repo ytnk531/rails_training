@@ -11,14 +11,14 @@
   .col.s4
     %h2
       =@user.name
-    - if !@profile.facebook.nil?
-      = link_to "https://facebook.com/#{@profile.facebook}", class: "social-icon" do
+    - if !@profile.facebook_id.nil?
+      = link_to "https://facebook.com/#{@profile.facebook_id}", class: "social-icon" do
         - fa_icon "facebook-square"
-    - if !@profile.github_url.nil?
-      = link_to "https://github.com/#{@profile.github_url}", class: "social-icon" do
+    - if !@profile.github_id.nil?
+      = link_to "https://github.com/#{@profile.github_id}", class: "social-icon" do
         - fa_icon "github"
-    - if !@profile.twitter.nil?
-      = link_to "https://twitter.com/#{@profile.twitter}", class: "social-icon" do
+    - if !@profile.twitter_id.nil?
+      = link_to "https://twitter.com/#{@profile.twitter_id}", class: "social-icon" do
         - fa_icon "twitter"
   .col.s8
     .card
