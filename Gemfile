@@ -48,7 +48,6 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "rspec-rails"
   gem "rubocop"
-  gem "rubocop-rails_config"
   gem "rspec_junit_formatter"
 end
 
