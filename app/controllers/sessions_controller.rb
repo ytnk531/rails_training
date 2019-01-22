@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   def new; end
 
   def create
-    user = User.find_by(emailAddress: params[:session][:emailAddress].downcase)
+    user = User.find_by(email_address: params[:session][:email_address].downcase)
     logger.debug(user)
     logger.debug(params[:session][:password])
     if user&.authenticate(params[:session][:password])
