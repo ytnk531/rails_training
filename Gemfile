@@ -21,6 +21,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'cocoon'
 gem 'execjs'
 gem 'mini_racer'
+gem 'rubocop'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -43,7 +44,6 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
-  gem 'rubocop'
 end
 
 group :development do
