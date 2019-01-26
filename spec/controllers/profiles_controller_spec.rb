@@ -26,55 +26,53 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe ProfilesController, type: :controller do
-  # This should return the minimal set of attributes required to create a valid
-  # Profile. As you add validations to Profile, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) do
-    { message: 'aaaa', user_id: 5, work_experiences_attributes: [{ company_name: '10' }] }
-  end
-
-  let(:invalid_attributes) do
-    { user_id: 10, work_experiences_attributes: [{ company_name: '' }] }
-  end
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # ProfilesController. Be sure to keep this updated too.
-  let(:valid_session) { { user_id: 5 } }
-
-  before(:each) do
-    p = {id: 5, name: 'taro yamada', email_address: 't@example.com', password: '444', password_confirmation: '444'}
-    User.create! p
-  end
-
   describe 'GET #show' do
     it 'returns a success response' do
-      profile = Profile.create! valid_attributes
-      get :show, params: { id: profile.to_param }, session: valid_session
+      p = create(:profile)
+      get :show, params: { id: p.id }, session: {user_id: p.user_id}
       expect(response).to be_successful
     end
   end
 
   describe 'GET #new' do
     it 'returns a success response' do
-      get :new, params: {}, session: valid_session
+      u = create(:user)
+      get :new, params: {}, session: {user_id: u.id}
       expect(response).to be_successful
+    end
+  end
+
+  describe 'GET #show_mine' do
+    context 'user have a profile' do
+      it 'respond the user\'s profile' do
+        p = create(:profile)
+        get :show_mine, params: {}, session: {user_id: p.user_id}
+        expect(response).to be_successful
+      end
+    end
+    context 'user still not have a profile' do
+      it 'respond redirect to new profile view' do
+        u = create(:user)
+        get :show_mine, params: {}, session: {user_id: u.id}
+        expect(response).to redirect_to(new_profile_path)
+      end
     end
   end
 
   describe 'GET #edit' do
     context 'own profile' do
       it 'returns a success response' do
-        profile = Profile.create! valid_attributes
-        get :edit, params: { id: profile.to_param }, session: valid_session
+        p = create(:profile)
+        get :edit, params: { id: p.id }, session: {user_id: p.user_id}
         expect(response).to be_successful
       end
     end
     context 'other user profile' do
       it 'returns a success response' do
-        profile = Profile.create! valid_attributes
-        get :edit, params: { id: profile.to_param }, session: valid_session
-        expect(response).to be_successful
+        p1 = create(:profile)
+        p2 = create(:profile)
+        get :edit, params: { id: p1.id }, session: {user_id: p2.user_id}
+        expect(response).to redirect_to(users_path)
       end
     end
   end
@@ -82,21 +80,16 @@ RSpec.describe ProfilesController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new Profile' do
+        user = create(:user)
         expect do
-          post :create, params: { profile: valid_attributes }, session: valid_session
+          post :create, params: { profile: attributes_for(:profile, user: user) }, session: {user_id: user.id}
         end.to change(Profile, :count).by(1)
       end
 
       it 'redirects to the created profile' do
-        post :create, params: { profile: valid_attributes }, session: valid_session
+        user = create(:user)
+        post :create, params: { profile: attributes_for(:profile, user: user) }, session: {user_id: user.id}
         expect(response).to redirect_to(Profile.last)
-      end
-    end
-
-    context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { profile: invalid_attributes }, session: valid_session
-        expect(response).to render_template :new
       end
     end
   end
@@ -104,51 +97,11 @@ RSpec.describe ProfilesController, type: :controller do
   describe 'PUT #update' do
     context 'with valid params' do
       it 'redirects to the profile' do
-        profile = Profile.create! valid_attributes
-        put :update, params: { id: profile.to_param, profile: valid_attributes }, session: valid_session
+        profile = create(:profile)
+        put :update,
+            params: { id: profile.to_param, profile: attributes_for(:profile, id: profile.id, message:"new message") },
+            session: {user_id: profile.user_id}
         expect(response).to redirect_to(profile)
-      end
-    end
-  end
-
-  describe 'GET #add_work_experience' do
-    it 'returns new' do
-      post :add_work_experience, params: { profile: {} }, session: { user_id: 5 }
-      expect(response).to render_template :new
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    context 'own profile deleted' do
-      it 'destroys the requested profile' do
-        profile = Profile.create! valid_attributes
-        expect do
-          delete :destroy, params: { id: profile.to_param }, session: valid_session
-        end.to change(Profile, :count).by(-1)
-      end
-
-      it 'redirects to the profiles list' do
-        profile = Profile.create! valid_attributes
-        delete :destroy, params: { id: profile.to_param }, session: valid_session
-        expect(response).to redirect_to(profiles_url)
-      end
-    end
-    context 'other user\'s profile' do
-      before(:each) do
-        p = {id: 4, name: 'taro yamada', email_address: 't@example.com', password: '444', password_confirmation: '444'}
-        User.create! p
-      end
-      it 'destroys the requested profile' do
-        profile = Profile.create! valid_attributes
-        expect do
-          delete :destroy, params: { id: profile.to_param }, session: { user_id: 4 }
-        end.to change(Profile, :count).by(0)
-      end
-
-      it 'redirects to the profiles list' do
-        profile = Profile.create! valid_attributes
-        delete :destroy, params: { id: profile.to_param }, session: { user_id: 4 }
-        expect(response).to redirect_to(profiles_url)
       end
     end
   end

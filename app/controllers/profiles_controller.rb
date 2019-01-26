@@ -2,14 +2,7 @@
 
 class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[show edit update destroy]
-
-  def add_work_experience
-    path = Rails.application.routes.recognize_path(request.referer)
-
-    @profile = Profile.new(profile_params)
-    @profile.work_experiences.build
-    render path[:action] || :new
-  end
+  before_action :require_own!, only: %i[edit update]
 
   # GET /profiles
   def index
@@ -25,7 +18,7 @@ class ProfilesController < ApplicationController
     @user = current_user
     @profile = @user.profile
     if @profile.nil?
-      redirect_to new_profile_url
+      redirect_to new_profile_path
     else
       render :show
     end
@@ -65,14 +58,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  # DELETE /profiles/1
-  def destroy
-    @profile.destroy
-    respond_to do |format|
-      format.html { redirect_to profiles_url, notice: 'Profile was successfully destroyed.' }
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -86,5 +71,9 @@ class ProfilesController < ApplicationController
       .require(:profile)
       .permit(:message, :github_id, :facebook_id, :twitter_id,
               work_experiences_attributes: %i[id company_name work_start_on work_end_on _destroy])
+  end
+
+  def require_own!
+    redirect_to users_path unless @profile.user_id == current_user.id
   end
 end
