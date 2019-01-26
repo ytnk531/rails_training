@@ -8,13 +8,13 @@
       .input-field.col.s12
         .prefix
           = material_icon.email
-        = f.text_field :emailAddress
-        = f.label :emailAddress, "メールアドレス"
+        = f.text_field :email_address
+        = f.label :email_address, "メールアドレス"
       .input-field.col
         .prefix
           = material_icon.lock
         = f.password_field :password
-        = f.label :emailAddress, "パスワード"
+        = f.label :email_address, "パスワード"
       .actions.center
         = f.submit 'ログイン', class: "btn"
       .right

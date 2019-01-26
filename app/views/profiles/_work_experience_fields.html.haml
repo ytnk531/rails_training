@@ -3,10 +3,10 @@
     = f.label :company_name
     = f.text_field :company_name
   .field-inline
-    = f.label :work_start
-    = f.date_select :work_start
+    = f.label :work_start_on
+    = f.date_select :work_start_on
   .field-inline
-    = f.label :work_end
-    = f.date_select :work_end
+    = f.label :work_end_on
+    = f.date_select :work_end_on
   = link_to_remove_association f do
     = material_icon.delete.md_36
