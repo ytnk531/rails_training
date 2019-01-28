@@ -27,11 +27,11 @@ require "rails_helper"
 
 RSpec.describe UsersController, type: :controller do
   let(:valid_attributes) do
-    {id: 5, name: 'taro yamada', email_address: 't@example.com', password: '444', password_confirmation: '444'}
+    { id: 5, name: "taro yamada", email_address: "t@example.com", password: "444", password_confirmation: "444" }
   end
 
   let(:invalid_attributes) do
-    {id: 5, name: 'taro yamada', email_address: '', password: ''}
+    { id: 5, name: "taro yamada", email_address: "", password: "" }
   end
 
   let(:valid_session) { { user_id: 1 } }

@@ -43,7 +43,7 @@ RSpec.describe ProfilesController, type: :controller do
   let(:valid_session) { { user_id: 5 } }
 
   before(:each) do
-    p = {id: 5, name: 'taro yamada', email_address: 't@example.com', password: '444', password_confirmation: '444'}
+    p = { id: 5, name: "taro yamada", email_address: "t@example.com", password: "444", password_confirmation: "444" }
     User.create! p
   end
 
@@ -135,7 +135,7 @@ RSpec.describe ProfilesController, type: :controller do
     end
     context "other user's profile" do
       before(:each) do
-        p = {id: 4, name: 'taro yamada', email_address: 't@example.com', password: '444', password_confirmation: '444'}
+        p = { id: 4, name: "taro yamada", email_address: "t@example.com", password: "444", password_confirmation: "444" }
         User.create! p
       end
       it "destroys the requested profile" do
