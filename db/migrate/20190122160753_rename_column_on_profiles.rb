@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameColumnOnProfiles < ActiveRecord::Migration[5.2]
   def change
     rename_column :profiles, :github_url, :github_id

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root to: 'users#index'
-  get '/login', to: 'sessions#new'
-  get '/my_profile', to: 'profiles#show_mine'
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+  root to: "users#index"
+  get "/login", to: "sessions#new"
+  get "/my_profile", to: "profiles#show_mine"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
   resources :work_experiences
   resources :profiles
   resources :users
