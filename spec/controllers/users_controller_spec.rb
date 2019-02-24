@@ -26,20 +26,10 @@ require "rails_helper"
 # `rails-controller-testing` gem.
 
 RSpec.describe UsersController, type: :controller do
-  let(:valid_attributes) do
-    { id: 5, name: "taro yamada", email_address: "t@example.com", password: "444", password_confirmation: "444" }
-  end
-
-  let(:invalid_attributes) do
-    { id: 5, name: "taro yamada", email_address: "", password: "" }
-  end
-
-  let(:valid_session) { { user_id: 1 } }
-
   describe "GET #index" do
     it "returns a success response" do
-      User.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      u = create(:user)
+      get :index, params: {}, session: { user_id: u.id }
       expect(response).to be_successful
     end
   end
@@ -55,19 +45,19 @@ RSpec.describe UsersController, type: :controller do
     context "with valid params" do
       it "creates a new User" do
         expect do
-          post :create, params: { user: valid_attributes }, session: {}
+          post :create, params: { user:  attributes_for(:user) }, session: {}
         end.to change(User, :count).by(1)
       end
 
       it "redirects to the created user" do
-        post :create, params: { user: valid_attributes }, session: {}
+        post :create, params: { user: attributes_for(:user) }, session: {}
         expect(response).to redirect_to(new_profile_url)
       end
     end
 
     context "with invalid params" do
       it "returns new with errors" do
-        post :create, params: { user: invalid_attributes }, session: {}
+        post :create, params: { user: attributes_for(:user, name: "") }, session: {}
         expect(response).to render_template(:new)
       end
     end
@@ -76,28 +66,34 @@ RSpec.describe UsersController, type: :controller do
   describe "DELETE #destroy" do
     context "admin user can delete" do
       it "destroys the requested user" do
-        user = User.create! valid_attributes.update(role: :admin)
+        u1 = create(:user, role: "admin")
+        u2 = create(:user)
         expect do
-          delete :destroy, params: { id: user.to_param }, session: { user_id: 5 }
+          delete :destroy, params: { id: u2.id }, session: { user_id: u1.id }
         end.to change(User, :count).by(-1)
       end
 
       it "redirects to the users list" do
-        user = User.create! valid_attributes.update(role: :admin)
-        delete :destroy, params: { id: user.to_param }, session: { user_id: 5 }
+        u1 = create(:user, role: "admin")
+        u2 = create(:user)
+        delete :destroy, params: { id: u2.id }, session: { user_id: u1.id }
         expect(response).to redirect_to(users_url)
       end
     end
+
     context "non-admin user can not delete" do
       it "destroys the requested user" do
-        user = User.create! valid_attributes.update(role: :user)
+        u1 = create(:user)
+        u2 = create(:user)
         expect do
-          delete :destroy, params: { id: user.to_param }, session: { user_id: 5 }
+          delete :destroy, params: { id: u2.id }, session: { user_id: u1.id }
         end.to change(User, :count).by(0)
       end
+
       it "redirects to the users list" do
-        user = User.create! valid_attributes.update(role: :user)
-        delete :destroy, params: { id: user.to_param }, session: { user_id: 5 }
+        u1 = create(:user)
+        u2 = create(:user)
+        delete :destroy, params: { id: u2.id }, session: { user_id: u1.id }
         expect(response).to redirect_to(users_url)
       end
     end
